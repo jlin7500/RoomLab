@@ -11,10 +11,10 @@ public class Runner {
 	
 
 	private static boolean gameOn = true;
-	
+
 	public static void main(String[] args)
 	{
-		Room[][] building = new Room[5][5];
+		Room[][] building = new Room[6][6];
 		
 		//Fill the building with normal rooms
 		for (int x = 0; x<building.length; x++)
@@ -32,19 +32,39 @@ public class Runner {
 		 
 		 //Setup player 1 and the input scanner
 		Person player1 = new Person("FirstName", "FamilyName", 0,0);
-		building[0][0].enterRoom(player1);
+		building[1][1].enterRoom(player1);
 		Scanner in = new Scanner(System.in);
 		while(gameOn)
 		{
-			System.out.println("Where would you like to move? (Choose N, S, E, W)");
+			System.out.println("Where would you like to go? (Choose N, S, E, W)");
 			String move = in.nextLine();
+			String[][] printMap={{"[][][][][]"},{"[][][][][]"},{"[][][][][]"},{"[][][][][]"},{"[][][][][]"}};
+			for(int i=0;i<printMap.length;i++)
+			{
+				for(int j=0;j<printMap[i].length;j++)
+				{
+					System.out.println(printMap[i][j]);
+				}
+			}
+
+			for (int k = player1.getxLoc(); k < printMap.length; k++)
+			{
+				for (int z = player1.getyLoc(); z < printMap.length; z++)
+				{
+					if (k == player1.getxLoc() && z == player1.getyLoc())
+					{
+						System.out.println("[a]");
+					}
+				}
+			}
+
 			if(validMove(move, player1, building))
 			{
 				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-				
 			}
 			else {
 				System.out.println("Please choose a valid move.");
+				System.out.println(printMap);
 			}
 			
 			
@@ -64,7 +84,7 @@ public class Runner {
 		move = move.toLowerCase().trim();
 		switch (move) {
 			case "n":
-				if (p.getxLoc() > 0)
+				if (p.getxLoc() > 1)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 					map[p.getxLoc()-1][p.getyLoc()].enterRoom(p);
@@ -99,7 +119,7 @@ public class Runner {
 				}
 
 			case "w":
-				if (p.getyLoc() > 0)
+				if (p.getyLoc() > 1)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 					map[p.getxLoc()][p.getyLoc()-1].enterRoom(p);
