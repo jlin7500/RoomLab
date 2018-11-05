@@ -4,7 +4,7 @@ import People.Person;
 import Rooms.Room;
 import Rooms.WinningRoom;
 import Rooms.JlinRoom;
-
+import Rooms.TestingRoom;
 import java.util.Scanner;
 
 public class Runner {
@@ -14,7 +14,8 @@ public class Runner {
 
 	public static void main(String[] args)
 	{
-		Room[][] building = new Room[6][6];
+
+		Room[][] building = new Room[5][5];
 		
 		//Fill the building with normal rooms
 		for (int x = 0; x<building.length; x++)
@@ -32,7 +33,7 @@ public class Runner {
 		 
 		 //Setup player 1 and the input scanner
 		Person player1 = new Person("FirstName", "FamilyName", 0,0);
-		building[1][1].enterRoom(player1);
+		building[0][0].enterRoom(player1);
 		Scanner in = new Scanner(System.in);
 		while(gameOn)
 		{
@@ -47,27 +48,30 @@ public class Runner {
 				}
 			}
 
-			for (int k = player1.getxLoc(); k < printMap.length; k++)
+			/*for (int k = player1.getxLoc(); k < printMap.length; k++)
 			{
 				for (int z = player1.getyLoc(); z < printMap.length; z++)
 				{
 					if (k == player1.getxLoc() && z == player1.getyLoc())
 					{
-						System.out.println("[a]");
+						System.out.println(player1.getxLoc());
+						System.out.println(player1.getyLoc());
 					}
 				}
 			}
-
+			*/
 			if(validMove(move, player1, building))
 			{
 				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
+				System.out.println(player1.getxLoc());
+				System.out.println(player1.getyLoc());
+				System.out.println(printMap[player1.getyLoc()]);
 			}
-			else {
+			else
+				{
 				System.out.println("Please choose a valid move.");
-				System.out.println(printMap);
-			}
-			
-			
+					System.out.println(printMap);
+				}
 		}
 		in.close();
 	}
