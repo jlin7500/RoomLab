@@ -2,14 +2,24 @@ package Rooms;
 
 import People.Person;
 
-public class Room {
+public class
+Room {
 	Person occupant;
 	int xLoc,yLoc;
-	
+
+
 	public Room(int x, int y)
 	{
 		xLoc = x;
 		yLoc = y;
+	}
+	public String toString()
+	{
+		if(occupant==null)
+		{
+			return "[ ]";
+		}
+		return "[S]";
 	}
 
 	/**
@@ -24,6 +34,7 @@ public class Room {
 		x.setyLoc(this.yLoc);
 	}
 
+
 	/**
 	 * Removes the player from the room.
 	 * @param x
@@ -32,5 +43,4 @@ public class Room {
 	{
 		occupant = null;
 	}
-	
 }
