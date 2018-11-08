@@ -7,9 +7,9 @@ import Rooms.Room;
 import java.util.Scanner;
 
 public class Runner {
-	
 
 	private static boolean gameOn = true;
+
 	public static void main(String[] args)
 	{
 
@@ -17,7 +17,7 @@ public class Runner {
 		int length = 0;
 		int width = 0;
 
-		System.out.println("Welcome To The Finite Wars BattleField");
+		System.out.println("Hello welcome to my thing????");
 		System.out.println("Please Choose a Map Size" + "\n" + "s for Small Map" + "\n" + "m for Medium Map" + "\n" + "l for Large Map");
 		System.out.println("You will be represented as 'S' on the board.");
 
@@ -29,28 +29,31 @@ public class Runner {
 			{
 				length = 5;
 				width = 5;
-			} else if (mapsize.equalsIgnoreCase("M"))
+			}
+			else if (mapsize.equalsIgnoreCase("M"))
 			{
 				length = 10;
 				width = 10;
-			} else if (mapsize.equalsIgnoreCase("L"))
+			}
+			else if (mapsize.equalsIgnoreCase("L"))
 			{
 				length = 15;
 				width = 15;
 
-			} else {
-				System.out.println("Please Type S , M , or L");
+			}
+			else
+				{
+					System.out.println("Please Type S , M , or L");
 				mapsize = in.nextLine();
 			}
 		}
 
 		Board building = new Board(length, width);
-
 		building.makeEyLmao();
 		building.print();
 
-		Person player1 = new Person("FirstName", "FamilyName", 0,0);
-		building.enterRoom(player1,0,0);
+		Person player = new Person("FirstName", "FamilyName", 0,0);
+		building.enterRoom(player,0,0);
 
 		int health = 20;
 
@@ -68,23 +71,23 @@ public class Runner {
 			*/
 			while(gameOn&&health!=0)
 			{
-				System.out.println("Where would you like to move? (Choose N, S, E, W)");
-				System.out.println("(You Start At The Top Left Corner of the Map)");
+				System.out.println("Choose N , S , E , W to move.");
+				System.out.println("You will start in the top left corner.");
+				System.out.println("Move to see your position on the map.");
 				String move = in.nextLine();
-				if(validMove(move, player1, building.getRooms()))
+				if(validMove(move, player, building.getRooms()))
 				{
 					building.print();
-					System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-
+					System.out.println("Your coordinates: row = " + player.getxLoc() + " col = " + player.getyLoc());
 				}
-				else {
+				else
+					{
 					System.out.println("Please choose a valid move.");
 				}
-
-
 			}
 			in.close();
-		}
+	}
+
 
 	/**
 	 * Checks that the movement chosen is within the valid game map.
@@ -96,7 +99,8 @@ public class Runner {
 	public static boolean validMove(String move, Person p, Room[][] map)
 	{
 		move = move.toLowerCase().trim();
-		switch (move) {
+		switch (move)
+		{
 			case "n":
 				if (p.getxLoc() > 1)
 				{
