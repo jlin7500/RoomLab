@@ -1,52 +1,58 @@
 package Game;
 
 import People.Person;
+import Rooms.Board;
 import Rooms.Room;
-import Rooms.WinningRoom;
-import Rooms.JlinRoom;
-import Rooms.TestingRoom;
+
 import java.util.Scanner;
 
 public class Runner {
 	
 
 	private static boolean gameOn = true;
-
 	public static void main(String[] args)
 	{
 
-		Room[][] building = new Room[5][5];
-		
-		//Fill the building with normal rooms
-		for (int x = 0; x<building.length; x++)
-		{
-			for (int y = 0; y < building[x].length; y++)
+		Scanner in = new Scanner(System.in);
+		int length = 0;
+		int width = 0;
+
+		System.out.println("Welcome To The Finite Wars BattleField");
+		System.out.println("Please Choose a Map Size" + "\n" + "s for Small Map" + "\n" + "m for Medium Map" + "\n" + "l for Large Map");
+		System.out.println("You will be represented as 'S' on the board.");
+
+		String mapsize = "";
+
+		while(!mapsize.equalsIgnoreCase("s")&&(!mapsize.equalsIgnoreCase("m"))&&(!mapsize.equalsIgnoreCase("l"))&&(!mapsize.equalsIgnoreCase("secret"))) {
+			mapsize=in.nextLine();
+			if (mapsize.equalsIgnoreCase("S"))
 			{
-				building[x][y] = new Room(x,y);
+				length = 5;
+				width = 5;
+			} else if (mapsize.equalsIgnoreCase("M"))
+			{
+				length = 10;
+				width = 10;
+			} else if (mapsize.equalsIgnoreCase("L"))
+			{
+				length = 15;
+				width = 15;
+
+			} else {
+				System.out.println("Please Type S , M , or L");
+				mapsize = in.nextLine();
 			}
 		}
-		
-		//Create a random winning room.
-		int x = (int)(Math.random()*building.length);
-		int y = (int)(Math.random()*building.length);
-		building[x][y] = new JlinRoom(x, y);
-		 
-		 //Setup player 1 and the input scanner
+
+		Board building = new Board(length, width);
+
+		building.makeEyLmao();
+		building.print();
+
 		Person player1 = new Person("FirstName", "FamilyName", 0,0);
-		building[0][0].enterRoom(player1);
-		Scanner in = new Scanner(System.in);
-		while(gameOn)
-		{
-			System.out.println("Where would you like to go? (Choose N, S, E, W)");
-			String move = in.nextLine();
-			String[][] printMap={{"[][][][][]"},{"[][][][][]"},{"[][][][][]"},{"[][][][][]"},{"[][][][][]"}};
-			for(int i=0;i<printMap.length;i++)
-			{
-				for(int j=0;j<printMap[i].length;j++)
-				{
-					System.out.println(printMap[i][j]);
-				}
-			}
+		building.enterRoom(player1,0,0);
+
+		int health = 20;
 
 			/*for (int k = player1.getxLoc(); k < printMap.length; k++)
 			{
@@ -60,21 +66,25 @@ public class Runner {
 				}
 			}
 			*/
-			if(validMove(move, player1, building))
+			while(gameOn&&health!=0)
 			{
-				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-				System.out.println(player1.getxLoc());
-				System.out.println(player1.getyLoc());
-				System.out.println(printMap[player1.getyLoc()]);
-			}
-			else
+				System.out.println("Where would you like to move? (Choose N, S, E, W)");
+				System.out.println("(You Start At The Top Left Corner of the Map)");
+				String move = in.nextLine();
+				if(validMove(move, player1, building.getRooms()))
 				{
-				System.out.println("Please choose a valid move.");
-					System.out.println(printMap);
+					building.print();
+					System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
+
 				}
+				else {
+					System.out.println("Please choose a valid move.");
+				}
+
+
+			}
+			in.close();
 		}
-		in.close();
-	}
 
 	/**
 	 * Checks that the movement chosen is within the valid game map.
